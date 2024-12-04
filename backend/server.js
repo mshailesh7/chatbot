@@ -1,39 +1,42 @@
-const express = require('express');
-const cors = require('cors');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import express from "express";
+import cors from "cors";
+import OpenAI from "openai";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Initialize Gemini AI
-const genAI = new GoogleGenerativeAI("AIzaSyDs6pKKft1d6hSXzPixhBA37nlmRv4yYT8");
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-// Chat endpoint
-app.post('/chat', async (req, res) => {
+app.post("/chat", async (req, res) => {
   try {
     const { userMessage } = req.body;
 
     if (!userMessage.trim()) {
-      return res.status(400).json({ error: 'User message cannot be empty.' });
+      return res.status(400).json({ error: "User message cannot be empty." });
     }
 
-    // Generate model
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: userMessage },
+      ],
+    });
 
-    // Generate content
-    const result = await model.generateContent(userMessage);
-    const response = result.response.text();
-
-    res.json({ reply: response });
+    const reply = completion.choices[0].message.content.trim();
+    res.json({ reply });
   } catch (error) {
-    console.error('Full Error:', error);
-    res.status(500).json({ 
-      error: 'Error processing chat request',
-      details: error.message 
+    console.error("Full Error:", error);
+    res.status(500).json({
+      error: "Error processing chat request",
+      details: error.message,
     });
   }
 });
 
-// Start the server
-app.listen(3001, () => console.log('Server running on http://localhost:3001'));
+app.listen(3001, () => console.log("Server running on http://localhost:3001"));
