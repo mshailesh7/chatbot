@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Chatbot.css";
 
@@ -7,6 +7,15 @@ const Chatbot = () => {
   const [selectedStandard, setSelectedStandard] = useState("GRI");
   const [userMessage, setUserMessage] = useState("");
   const [output, setOutput] = useState(""); // To display responses
+  const [loading, setLoading] = useState(false); // To track processing state
+  const [currentDate, setCurrentDate] = useState("");
+
+  // Update current date and time on mount
+  useEffect(() => {
+    const now = new Date();
+    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+    setCurrentDate(now.toLocaleDateString(undefined, options)); // Localized date
+  }, []);
 
   // Handle file upload
   const handleFileUpload = async () => {
@@ -18,11 +27,15 @@ const Chatbot = () => {
     const formData = new FormData();
     formData.append("file", pdfFile);
 
+    setLoading(true); // Start loading
     try {
       const response = await axios.post("http://localhost:3001/upload", formData);
-      setOutput(response.data.openAIResponse); // Set OpenAI's response in output
+      alert("PDF uploaded and processed successfully!"); 
+      setOutput(response.data.openAIResponse); 
     } catch (error) {
       setOutput("Error uploading PDF. Please try again.");
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -33,11 +46,14 @@ const Chatbot = () => {
       return;
     }
 
+    setLoading(true); // Start loading
     try {
       const response = await axios.post("http://localhost:3001/chat", { userMessage });
       setOutput(response.data.reply); // Display OpenAI's reply in output
     } catch (error) {
       setOutput("Error communicating with the chatbot. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -46,9 +62,23 @@ const Chatbot = () => {
     setSelectedStandard(event.target.value);
   };
 
+  useEffect(() => {
+    const resetPDFContent = async () => {
+      try {
+        await axios.post("http://localhost:3001/reset");
+        console.log("Server PDF content reset successfully.");
+      } catch (error) {
+        console.error("Error resetting server PDF content:", error);
+      }
+    };
+  
+    resetPDFContent(); // Reset PDF content on page load
+  }, []);
+
   return (
     <div className="container">
       <h1 className="title">Sustainability Report Generator</h1>
+      <p className="current-date">Today's Date: {currentDate}</p>
 
       {/* File Upload Section */}
       <div className="upload-section">
@@ -120,8 +150,16 @@ const Chatbot = () => {
 
       {/* Output Container */}
       <div className="output-container">
-        <h2 className="output-title">Output</h2>
-        <p className="output-text">{output || "Your output will appear here."}</p>
+        {loading ? (
+          <div className="loading-container">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <>
+            <h2 className="output-title">Output</h2>
+            <p className="output-text">{output || "Your output will appear here."}</p>
+          </>
+        )}
       </div>
     </div>
   );
