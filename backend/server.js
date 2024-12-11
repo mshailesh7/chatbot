@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import systemInstructions from './systemInstructions.js';
 dotenv.config();
 
 const app = express();
@@ -68,7 +69,7 @@ app.post('/chat', async (req, res) => {
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini-2024-07-18',
       messages: [
-        { role: 'system', content: `You are a chatbot that only responds using the following document. You should not use any knowledge outside of this document. Here is the document: ${pdfText}` },
+        { role: 'system', content: `${systemInstructions}\n\nPDF Content: ${pdfText}` },
         { role: 'user', content: userMessage },
       ],
       temperature: 1,

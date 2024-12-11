@@ -7,16 +7,22 @@ body {
 }
 
 .container {
-  width: 90%;
-  max-width: 600px;
-  margin: 50px auto;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 100%;
+  height: 100vh;
 }
 
-/* Title */
+/* Left Side (Report Generator) */
+.left-side {
+  width: 50%; /* Adjust the width as per your need */
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-right: 20px;
+  overflow-y: auto;
+}
+
 .title {
   text-align: center;
   font-size: 24px;
@@ -25,7 +31,6 @@ body {
   margin-bottom: 30px;
 }
 
-/* File Upload Section */
 .upload-section {
   margin-bottom: 20px;
 }
@@ -47,12 +52,6 @@ body {
   color: #333;
 }
 
-.file-name {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #555;
-}
-
 /* Standard Selection Section */
 .standard-section {
   margin-bottom: 30px;
@@ -72,11 +71,6 @@ body {
   color: #333333;
 }
 
-.standard-options input {
-  margin-right: 10px;
-}
-
-/* Submit Button */
 .submit-button {
   display: block;
   width: 100%;
@@ -94,7 +88,7 @@ body {
   background-color: #24920f;
 }
 
-/* Message Input Section */
+/* Bottom Section for Text Area */
 .message-section {
   margin-top: 20px;
   display: flex;
@@ -109,6 +103,8 @@ body {
   border-radius: 5px;
   background-color: #f3fff0;
   color: #333;
+  min-height: 50px;
+  resize: vertical; /* Allows vertical resizing */
 }
 
 .send-button {
@@ -126,7 +122,16 @@ body {
   background-color: #24920f;
 }
 
-/* Output Container */
+/* Right Side (Output Area) */
+.right-side {
+  width: 50%;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
 .output-container {
   margin-top: 30px;
   padding: 20px;
@@ -143,12 +148,7 @@ body {
   margin-bottom: 10px;
 }
 
-.output-text {
-  font-size: 14px;
-  color: #333333;
-  white-space: pre-wrap; /* Ensures line breaks are preserved */
-}
-
+/* Loading Spinner */
 .loading-container {
   display: flex;
   align-items: center;
@@ -171,5 +171,15 @@ body {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Stack the left and right sides on smaller screens */
+  }
+
+  .left-side, .right-side {
+    width: 100%; /* Full width for both sections on smaller screens */
+    margin-bottom: 20px;
   }
 }
