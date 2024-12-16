@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Chatbot.css";
-import html2pdf from 'html2pdf.js';
+import html2pdf from "html2pdf.js";
 import { marked } from "marked";
 
 const Chatbot = () => {
@@ -49,13 +49,12 @@ const Chatbot = () => {
     }
   };
 
-
   // Handle standard selection
   const handleStandardClick = (standard) => {
     setOutput("");
     setIsOutputGenerated(false);
     setLoading(false);
-  
+
     setSelectedStandard(standard);
   };
 
@@ -69,44 +68,93 @@ const Chatbot = () => {
       }
     };
 
-    resetPDFContent(); 
+    resetPDFContent();
   }, []);
 
   const handleDownload = () => {
-  if (!output) {
-    alert("No output to download.");
-    return;
-  }
+    if (!output) {
+      alert("No output to download.");
+      return;
+    }
 
-  // Create a div to contain the formatted output
-  const outputDiv = document.createElement("div");
-  outputDiv.innerHTML = output;
+    const outputDiv = document.createElement("div");
+    outputDiv.innerHTML = `
+    <style>
+      * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
 
-  // Apply styling to ensure proper word wrap and page handling
-  outputDiv.style.fontFamily = "Arial, sans-serif";
-  outputDiv.style.fontSize = "16px";
-  outputDiv.style.lineHeight = "1.8";
-  outputDiv.style.textAlign = "left";
+      table {
+        page-break-inside: auto;
+      }
 
-  // Append the div to the document body (it won't be visible)
-  document.body.appendChild(outputDiv);
+      tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
 
-  // Set up html2pdf options for page handling
-  const options = {
-    margin: 10,
-    filename: 'generated_report.pdf',
-    image: { type: 'jpeg', quality: 0.99 },
-    html2canvas: { dpi: 192, letterRendering: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['css', 'legacy'] }, // Enable page breaks based on CSS
+      thead {
+        display: table-header-group;
+      }
+
+      tfoot {
+        display: table-footer-group;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        color: green;
+        page-break-after: avoid; 
+        break-after: avoid;
+      }
+
+      p, div, table {
+        page-break-before: avoid;
+        break-before: avoid;
+      }
+
+      .section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+    </style>
+    ${output}
+  `;
+
+
+    outputDiv.style.fontFamily = "Arial , sans-serif";
+    outputDiv.style.fontSize = "16px";
+    outputDiv.style.lineHeight = "1.2";
+    outputDiv.style.textAlign = "left";
+
+    document.body.appendChild(outputDiv);
+
+
+    const options = {
+      margin: 10,
+      filename: "generated_report.pdf",
+      image: { type: "jpeg", quality: 1 }, 
+      html2canvas: {
+        dpi: 300, 
+        letterRendering: true,
+        scale: 2,
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait",
+        compress: true, 
+      },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+    };
+
+    // Generate PDF
+    html2pdf().from(outputDiv).set(options).save();
+
+    // Clean up the DOM by removing the outputDiv after PDF generation
+    document.body.removeChild(outputDiv);
   };
 
-  html2pdf().from(outputDiv).set(options).save();
-
-  // Remove the div after PDF generation to clean up the DOM
-  document.body.removeChild(outputDiv);
-};
-  
   return (
     <div className="container">
       {/* Left side - Upload and Standard Selection */}
@@ -148,7 +196,7 @@ const Chatbot = () => {
         <button className="submit-button" onClick={handleFileUpload}>
           Submit
         </button>
-      </div>      
+      </div>
 
       {/* Right side - Output Area */}
       <div className="right-side">
@@ -179,10 +227,8 @@ const Chatbot = () => {
 function formatOutput(output) {
   let htmlOutput = marked(output);
 
-  // Ensure everything is aligned to the left by wrapping the content in a div
   htmlOutput = `<div style="text-align: left;">${htmlOutput}</div>`;
 
-  // Additional step to format tables (optional, if you want explicit styling for tables)
   htmlOutput = htmlOutput.replace(
     /<table>/g,
     '<table style="width: 100%; text-align: left;">'

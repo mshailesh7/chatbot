@@ -36,10 +36,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const data = await pdfParse(fs.readFileSync(filePath));
     pdfText = data.text; 
 
-    // Combine the standard prompt with the extracted PDF content
     const combinedPrompt = `${standardPrompt}\n\nPDF Content:\n${pdfText}`;
 
-    // Send combined prompt to OpenAI
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini-2024-07-18',
       messages: [
