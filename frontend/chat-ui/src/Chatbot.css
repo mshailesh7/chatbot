@@ -1,50 +1,65 @@
-/* General Styling */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f5fff3;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .container {
   display: flex;
   width: 100%;
   height: 100vh;
+  box-sizing: border-box;
 }
 
 /* Left Side (Report Generator) */
 .left-side {
-  width: 50%; /* Adjust the width as per your need */
+  width: 50%;
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   margin-right: 20px;
-  overflow-y: auto;
+  overflow-y: auto; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+}
+
+/* Right Side (Output Area) */
+.right-side {
+  width: 50%;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow-y: auto; 
 }
 
 .title {
   text-align: center;
-  font-size: 24px;
+  font-size: 34px;
   font-weight: bold;
   color: #2b7a0b;
   margin-bottom: 30px;
 }
 
+/* File Upload Section */
 .upload-section {
   margin-bottom: 20px;
 }
 
 .file-label {
   display: block;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
   color: #333333;
 }
 
 .file-input {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border: 2px solid #b6e9b1;
   border-radius: 5px;
@@ -58,31 +73,56 @@ body {
 }
 
 .standard-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
   color: #333333;
 }
 
-.standard-options label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 8px;
-  color: #333333;
+.standard-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.submit-button {
-  display: block;
-  width: 100%;
+.standard-button {
   padding: 10px;
-  font-size: 16px;
+  font-size: 24px;
+  color: #333;
+  background-color: #f3fff0;
+  border: 2px solid red;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.standard-button.active {
+  background-color: red;
+  color: #fff;
+}
+
+.standard-button:hover { 
+  background-color: #e47a86;
+  color: #fff;
+}
+
+/* Submit Button */
+.submit-button {
+  width: 60%; 
+  margin: 20px auto; 
+  display: block; 
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
   color: #ffffff;
   background-color: #2b7a0b;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
   transition: background-color 0.3s;
 }
+
 
 .submit-button:hover {
   background-color: #24920f;
@@ -104,12 +144,12 @@ body {
   background-color: #f3fff0;
   color: #333;
   min-height: 50px;
-  resize: vertical; /* Allows vertical resizing */
+  resize: vertical; 
 }
 
 .send-button {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 24px;
   color: #ffffff;
   background-color: #2b7a0b;
   border: none;
@@ -123,15 +163,6 @@ body {
 }
 
 /* Right Side (Output Area) */
-.right-side {
-  width: 50%;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  overflow-y: auto;
-}
-
 .output-container {
   margin-top: 30px;
   padding: 20px;
@@ -173,13 +204,32 @@ body {
     transform: rotate(360deg);
   }
 }
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column; /* Stack the left and right sides on smaller screens */
   }
 
-  .left-side, .right-side {
+  .left-side,
+  .right-side {
     width: 100%; /* Full width for both sections on smaller screens */
     margin-bottom: 20px;
   }
+}
+.download-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #2b7a0b;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 50%; /* Button width is 50% */
+  margin: 20px auto; /* Center the button below the output */
+  display: block;
+}
+
+.download-button:hover {
+  background-color: #24920f;
 }

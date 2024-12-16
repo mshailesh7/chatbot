@@ -25,30 +25,39 @@ let pdfText = '';
 
 // Endpoint for PDF upload
 app.post('/upload', upload.single('file'), async (req, res) => {
+  const { standardPrompt } = req.body;
+
+  if (!standardPrompt) {
+    return res.status(400).json({ error: "No standard prompt provided." });
+  }
+
   try {
-      const filePath = path.resolve(req.file.path);
+    const filePath = path.resolve(req.file.path);
+    const data = await pdfParse(fs.readFileSync(filePath));
+    pdfText = data.text; 
 
-      if (!fs.existsSync(filePath)) {
-          return res.status(400).json({ error: 'File not found after upload' });
-      }
+    // Combine the standard prompt with the extracted PDF content
+    const combinedPrompt = `${standardPrompt}\n\nPDF Content:\n${pdfText}`;
 
-      const fileStats = fs.statSync(filePath);
-      if (fileStats.size === 0) {
-          return res.status(400).json({ error: 'Uploaded file is empty' });
-      }
+    // Send combined prompt to OpenAI
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini-2024-07-18',
+      messages: [
+        { role: 'system', content: systemInstructions },
+        { role: 'user', content: combinedPrompt },
+      ],
+      temperature: 0.7,
+      max_tokens: 2048,
+    });
 
-      const data = await pdfParse(fs.readFileSync(filePath));
-      pdfText = data.text; // Extracted PDF text
-      console.log('PDF content:', pdfText.slice(0, 100)); // Displaying a preview of PDF content
-      res.json({ message: 'PDF uploaded and processed successfully.', pdfContent: pdfText.slice(0, 100) });
+    res.json({ reply: response.choices[0].message.content });
   } catch (error) {
-      console.error('Error processing PDF:', error.message);
-      res.status(500).json({ error: 'Failed to process PDF. Please ensure the file is valid.' });
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "Failed to process the request." });
   } finally {
-      // Clean up uploaded file
-      fs.unlink(req.file.path, (err) => {
-          if (err) console.error('Error deleting uploaded file:', err);
-      });
+    fs.unlink(req.file.path, (err) => {
+      if (err) console.error("Error deleting uploaded file:", err);
+    });
   }
 });
 
