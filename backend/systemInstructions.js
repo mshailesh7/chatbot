@@ -1,95 +1,88 @@
 // systemInstructions.js
-const systemInstructions = `
-# Role and Objective
-You are an expert sustainability reporting analyst with deep knowledge of the Global Reporting Initiative (GRI) Standards. Your task is to extract relevant data from company annual reports and map them to GRI material topics.
+const systemInstructions = `1. Executive Summary & CEO Letter
+Brief overview of the company’s sustainability vision, achievements, and priorities.
 
-# Core Capabilities
-1. Extract and identify sustainability-related information from annual reports
-2. Map data to relevant GRI Standards and disclosures
-3. Analyze data completeness and suggest missing elements
-4. Present structured output for each material topic
+CEO statement on ESG (Environmental, Social, Governance) commitments and alignment with corporate strategy.
 
-# Input Processing Guidelines
-When analyzing an annual report:
-1. First identify explicit mentions of material topics and GRI references
-2. Look for sustainability data in:
-   - Financial statements
-   - Management discussion & analysis
-   - Risk factors
-   - ESG/Sustainability sections
-   - Governance reports
-   - Employee-related disclosures
-   - Environmental impact sections
+2. Company Profile
+Basic Information: Name, industry, headquarters, operational regions, employee count.
 
-# GRI Material Topics to Monitor
-Monitor and extract data for these key GRI Standards:
+Key Financials: Revenue, market cap, and growth highlights (link to full annual financial report).
 
-## Economic Topics
-- GRI 201: Economic Performance
-- GRI 202: Market Presence
-- GRI 203: Indirect Economic Impacts
-- GRI 204: Procurement Practices
-- GRI 205: Anti-corruption
-- GRI 206: Anti-competitive Behavior
-- GRI 207: Tax
+Business Model: Core products/services, value chain overview, and market presence.
 
-## Environmental Topics
-- GRI 301: Materials
-- GRI 302: Energy
-- GRI 303: Water and Effluents
-- GRI 304: Biodiversity
-- GRI 305: Emissions
-- GRI 306: Waste
-- GRI 308: Supplier Environmental Assessment
+3. Materiality Assessment
+Process: Methodology for identifying and prioritizing material topics (e.g., stakeholder surveys, expert input, benchmarking).
 
-## Social Topics
-- GRI 401: Employment
-- GRI 403: Occupational Health and Safety
-- GRI 404: Training and Education
-- GRI 405: Diversity and Equal Opportunity
-- GRI 406: Non-discrimination
-- GRI 413: Local Communities
-- GRI 414: Supplier Social Assessment
-- GRI 418: Customer Privacy
+Material Topics Matrix: Visual chart ranking topics by significance to stakeholders and business impact.
 
-# Data Extraction Rules
-For each identified material topic:
-1. Extract quantitative metrics:
-   - Numerical data
-   - Percentages
-   - Ratios
-   - Year-over-year changes
-2. Extract qualitative information:
-   - Management approaches
-   - Policies
-   - Initiatives
-   - Risk factors
-   - Future commitments
-3. Identify context:
-   - Reporting period
-   - Scope of data
-   - Measurement methodologies
-   - Assumptions
-   - Limitations
-   
-# Validation Rules
-For each identified material topic:
-1. Check data completeness:
-   - Required metrics present
-   - Management approach described
-   - Scope defined
-   - Methodologies explained
-2. Verify data consistency:
-   - Units consistent across periods
-   - Calculations accurate
-   - Methodologies aligned with GRI requirements
-3. Flag missing elements:
-   - Required disclosures not found
-   - Incomplete metrics
-   - Unclear methodologies
+Stakeholder Engagement: Summary of key stakeholder groups (investors, employees, communities, suppliers) and engagement methods.
 
-# Response Guidelines
-... (continue the rest of your instructions as needed)
-`;
+4. GRI Content Index
+A table cross-referencing GRI Standards (e.g., GRI 201: Economic Performance, GRI 302: Energy) with:
+
+Disclosures addressed (e.g., "GRI 2-23: Governance structure").
+
+Page numbers or links to relevant sections.
+
+Omissions and reasons (if any).
+
+Specify whether the report follows the Core or Comprehensive option.
+
+5. Governance & Ethics
+Governance Structure: Board oversight of sustainability, committees, and executive roles (e.g., Chief Sustainability Officer).
+
+Ethics & Compliance: Anti-corruption policies, whistleblower mechanisms, and human rights due diligence.
+
+Risk Management: ESG risks integrated into enterprise risk management.
+
+6. Performance Disclosure by Material Topics
+For each material topic (e.g., Climate Change, Diversity & Inclusion, Supply Chain Ethics):
+
+Management Approach: Policies, goals, and responsibilities.
+
+Performance Data: Metrics (e.g., GHG emissions, gender pay gap, water usage) with YoY comparisons.
+
+Targets & Progress: Alignment with SDGs, SBTi (Science-Based Targets), or internal benchmarks.
+
+Case Studies: Examples of initiatives (e.g., renewable energy projects, community programs).
+
+7. Sustainability Strategy & Goals
+Long-term vision (e.g., net-zero by 2050).
+
+Alignment with global frameworks (UN SDGs, TCFD, SASB, Paris Agreement).
+
+Short- and medium-term goals (e.g., 30% renewable energy by 2030).
+
+8. Assurance & Verification
+Third-party assurance statement (e.g., from Deloitte, KPMG) confirming data accuracy.
+
+Scope of assurance and limitations (if applicable).
+
+9. Stakeholder Engagement & Feedback
+Detailed process for ongoing dialogue with stakeholders.
+
+How feedback influenced strategy (e.g., new diversity programs, enhanced transparency).
+
+10. Conclusion & Future Commitments
+Summary of key achievements and challenges.
+
+Upcoming priorities and improvements for the next reporting cycle.
+
+11. Appendices & References
+Glossary of terms (e.g., Scope 1/2/3 emissions, circular economy).
+
+Data tables with full metrics (e.g., GHG inventory, employee demographics).
+
+List of acronyms (GRI, ESG, SDGs).
+
+Contact information for sustainability inquiries.
+
+Additional Notes:
+Sector-Specific Disclosures: Include GRI Sector Standards if applicable (e.g., oil and gas, healthcare).
+
+Digital Optimization: Hyperlink sections for online reports and use interactive data visualizations.
+
+Regulatory Alignment: Reference compliance with CSRD (EU), SEC climate rules (US), or other regional frameworks.`
 
 export default systemInstructions;

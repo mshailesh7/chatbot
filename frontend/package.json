@@ -1,9 +1,8 @@
 {
-  "name": "chat-ui",
+  "name": "sustain360",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -24,12 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+  "devDependencies": {},
   "browserslist": {
     "production": [
       ">0.2%",

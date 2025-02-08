@@ -39,9 +39,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const combinedPrompt = `${standardPrompt}\n\nPDF Content:\n${pdfText}`;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini-2024-07-18',
+      model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: systemInstructions },
+        // { role: 'system', content: systemInstructions },
         { role: 'user', content: combinedPrompt },
       ],
       temperature: 0.7,
@@ -74,7 +74,7 @@ app.post('/chat', async (req, res) => {
   console.log(pdfText);
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini-2024-07-18',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: `${systemInstructions}\n\nPDF Content: ${pdfText}` },
         { role: 'user', content: userMessage },
